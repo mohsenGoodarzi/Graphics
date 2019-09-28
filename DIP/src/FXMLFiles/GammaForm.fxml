@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GammaController">
+   <content>
+      <BorderPane prefHeight="120.0" prefWidth="350.0">
+         <top>
+            <AnchorPane maxHeight="50.0" maxWidth="340.0" minHeight="50.0" minWidth="340.0" prefHeight="120.0" prefWidth="340.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="10.0" layoutY="16.0" prefHeight="17.0" prefWidth="80.0" text="Gamma Value:" />
+                  <TextField fx:id="gammaTextField" layoutX="93.0" layoutY="12.0" />
+                  <Button fx:id="applyButton" defaultButton="true" layoutX="259.0" layoutY="12.0" mnemonicParsing="false" onAction="#applyButton_OnClick" prefHeight="25.0" prefWidth="60.0" text="Apply" />
+               </children>
+            </AnchorPane>
+         </top>
+         <bottom>
+            <FlowPane alignment="CENTER_RIGHT" prefHeight="59.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButton_OnClick" prefHeight="25.0" prefWidth="80.0" text="Cancel">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Button>
+                  <Button fx:id="okButton" depthTest="ENABLE" mnemonicParsing="false" onAction="#okButton_OnClick" prefHeight="25.0" prefWidth="80.0" text="Ok">
+                     <FlowPane.margin>
+                        <Insets right="10.0" />
+                     </FlowPane.margin>
+                  </Button>
+               </children>
+            </FlowPane>
+         </bottom>
+      </BorderPane>
+   </content>
+</ScrollPane>

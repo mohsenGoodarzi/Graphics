@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="191.0" prefWidth="285.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <CheckBox fx:id="CheckBoxResizeBoth" layoutX="70.0" layoutY="113.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="148.0" text="Resize width and height" />
+      <Button fx:id="okButton" layoutX="180.0" layoutY="152.0" mnemonicParsing="false" onAction="#okButton_OnClick" prefHeight="25.0" prefWidth="76.0" text="OK" />
+      <TextField fx:id="TextBoxWidth" layoutX="70.0" layoutY="75.0" prefHeight="25.0" prefWidth="63.0" />
+      <TextField fx:id="TextBoxHeight" layoutX="197.0" layoutY="75.0" prefHeight="25.0" prefWidth="63.0" />
+      <Label layoutX="21.0" layoutY="79.0" text="Width:" />
+      <Label layoutX="155.0" layoutY="79.0" text="Height:" />
+      <Label layoutX="14.0" layoutY="28.0" text="Measure:" />
+      <ChoiceBox fx:id="CmbMaesure" layoutX="70.0" layoutY="24.0" prefHeight="25.0" prefWidth="190.0" />
+      <Button fx:id="applyBotton" layoutX="64.0" layoutY="152.0" mnemonicParsing="false" onAction="#applyBotton_OnClick" prefHeight="25.0" prefWidth="76.0" text="Apply" />
+   </children>
+</Pane>

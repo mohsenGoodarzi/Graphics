@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+<Label alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="258.0" style="-fx-opacity: 0.5; -fx-shape: 45; -fx-background-color: transparent;" text="Image Editor" textAlignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <font>
+      <Font size="40.0" />
+   </font>
+</Label>
