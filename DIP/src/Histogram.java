@@ -92,7 +92,8 @@ public class Histogram {
 
     private void initBars()
     {
-        for (int i = 0; i < 256; i++) {
+        // try to a void this area
+    	for (int i = 0; i < 256; i++) {
             brightnessBar[i] = 0;
             redBar[i]=0;
             greenBar[i] = 0 ;

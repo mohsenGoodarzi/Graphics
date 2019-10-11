@@ -1,3 +1,4 @@
+import java.awt.color.ColorSpace;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -22,18 +23,20 @@ public class ImageProcessing {
 	private Image processedImage;
 	private double gamma;
 	private double contrast;
-	private Map<Integer, Double> lookupTable;
+	private double[] lookupTable;
 
-	private double[] redLookupTable;
-	private double[] greenLookupTable;
-	private double[] blueLookupTable;
+	//private double[] redLookupTable;
+	//private double[] greenLookupTable;
+	//private double[] blueLookupTable;
 	private double[] grayscaleLookupTable;
-	private final int RED = 0;
-	private final int GREEN = 1;
-	private final int BLUE = 2;
-	private final int CUMULATIVE_RED = 3;
-	private final int CUMULATIVE_GREEN = 4;
-	private final int CUMULATIVE_BLUE = 5;
+	private double imageWidth;
+	private double imageHeight;
+	//private final int RED = 0;
+	//private final int GREEN = 1;
+	//private final int BLUE = 2;
+	//private final int CUMULATIVE_RED = 3;
+	//private final int CUMULATIVE_GREEN = 4;
+	//private final int CUMULATIVE_BLUE = 5;
 
 	private Histogram histogram;
 
@@ -42,30 +45,34 @@ public class ImageProcessing {
 		setOrginalImage(image);
 
 		setProcessedImage(null);
-		setLookupTabe(new Hashtable<Integer, Double>());
+
+		imageWidth = image.getWidth();
+		imageHeight = image.getHeight();
 		histogram = new Histogram(orginalImage);
 
 		processedImage = orginalImage;
-		redLookupTable = new double[256];
-		greenLookupTable = new double[256];
-		blueLookupTable = new double[256];
-		grayscaleLookupTable = new double[256];
-		for (double i = 0; i <= 255; i++) {
-			int j = (int) i;
-			redLookupTable[j] = i / 255.0d;
-			greenLookupTable[j] = i / 255.0d;
-			blueLookupTable[j] = i / 255.0d;
-			grayscaleLookupTable[j] = i / 55.0d;
+		//redLookupTable = new double[256];
+		//greenLookupTable = new double[256];
+		//blueLookupTable = new double[256];
+		//grayscaleLookupTable = new double[256];
+		for (int i = 0; i <= 255; i++) {
+			double j = (double) i;
+			//redLookupTable[j] = i / 255.0d;
+			//greenLookupTable[j] = i / 255.0d;
+			//blueLookupTable[j] = i / 255.0d;
+			//grayscaleLookupTable[j] = i / 55.0d;
+			lookupTable[i]= j/255.0d;
+			
 
 		}
 
 	}
 
-	private Map<Integer, Double> getLookupTabe() {
+	private double [] getLookupTabe() {
 		return lookupTable;
 	}
 
-	private void setLookupTabe(Map<Integer, Double> lookupTable) {
+	private void setLookupTabe(double [] lookupTable) {
 		this.lookupTable = lookupTable;
 	}
 
@@ -86,31 +93,127 @@ public class ImageProcessing {
 		int width = (int) orginalImage.getWidth();
 		int height = (int) orginalImage.getHeight();
 
-		WritableImage inverted_image = new WritableImage(width, height);
-		PixelWriter inverted_image_writer = inverted_image.getPixelWriter();
-		PixelReader image_reader = orginalImage.getPixelReader();
+		WritableImage writableImage = new WritableImage(width, height);
+		PixelWriter imageWeiter = writableImage.getPixelWriter();
+		PixelReader imageReader = orginalImage.getPixelReader();
 
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				Color color = image_reader.getColor(x, y);
+				Color color = imageReader.getColor(x, y);
 				double gray = (color.getRed() + color.getGreen() + color.getBlue()) / 3;
 				color = Color.color(gray, gray, gray);
-				inverted_image_writer.setColor(x, y, color);
+				imageWeiter.setColor(x, y, color);
 			}
 		}
-		setProcessedImage(inverted_image);
+		setProcessedImage(writableImage);
 	}
 
+	public HSV toHSV(double red, double green, double blue){
+		HSV hsv = new HSV();
+		
+			 double computedHue = 0;
+			 double computedSaturation = 0;
+			 double computedValue = 0;
+
+			 //remove spaces from input RGB values, convert to int
+			 
+			 
+			 double min = Math.min(red,Math.min(green,blue));
+			 double max = Math.max(red,Math.max(green,blue));
+			 double delta,hue =0;
+			 // Black-gray-white image
+			 if (min==max) {
+				 computedValue = min;
+			  hsv.setValue(min/255.0d);
+			  return hsv;
+			 }
+			 else {
+				 
+				 if (red == min) delta = green -blue;
+				 else if (blue == min) delta = red-green;
+				 else delta = blue - red;
+					 
+				 if(red == min) hue = 3;
+				 else if (blue==min) hue= 1;
+				 else
+					 hue = blue-red;
+				 
+				 computedHue = 60*(hue - delta/(max - min));
+				 computedSaturation = (max - min)/max* 100;
+				 computedValue = max/255d*100;// computed value must be mapped into the range [0-100] 
+				 		 
+				 hsv.setHue(computedHue);
+				 hsv.setSaturation(computedSaturation);
+				 hsv.setValue(computedValue);
+				 return hsv;	 
+				 
+			 }
+
+}
+		
+	public Color toRGB(HSV hsv) {
+		double value,hue,saturation,c=0,x=0,m=0;
+		hue=hsv.getHue();
+		value=hsv.getValue();
+		saturation=hsv.getSaturation();
+		c=value*saturation;
+		x = c *(1- Math.abs(((hue/60)% 2)-1));
+		m = value-c;
+		double notRed=0,notGreen=0,notBlue =0;
+		if (0<=hue && hue<60) {
+		notRed=c;
+		notGreen=x;
+		notBlue=0;
+		}
+		
+		if (60<=hue && hue<120) {
+			notRed=x;
+			notGreen=c;
+			notBlue=0;
+			}
+		if (120<=hue && hue<180) {
+			notRed=0;
+			notGreen=c;
+			notBlue=x;
+			}
+			
+		if (180<=hue && hue<240) {
+			notRed=0;
+			notGreen=x;
+			notBlue=c;
+			}
+		if (240<=hue && hue<300) {
+			notRed=x;
+			notGreen=0;
+			notBlue=c;
+			}
+		if (300<=hue && hue<360) {
+			notRed=c;
+			notGreen=0;
+			notBlue=x;
+			}
+		
+	int red=0,green=0,blue=0;
+	red  =(int) (notRed+m)  *255;
+	green=(int) (notGreen+m)*255;
+	blue =(int) (notBlue+m) *255;
+	
+	return Color.rgb(red, green, blue);
+	}	
+		
+	
 	public void calcEqualization() {
 		// mapping[i] = 255.0 * (t[i] / Size)
 		for (int i = 0; i < 256; i++) {
-			redLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeRed()[i]
-					/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-			greenLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeGreen()[i]
-					/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-			blueLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBlue()[i]
-					/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-			grayscaleLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBrightness()[i]
+			
+			
+			//redLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeRed()[i]
+			//		/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
+			//greenLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeGreen()[i]
+		//			/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
+		//	blueLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBlue()[i]
+			//		/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
+			lookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBrightness()[i]
 					/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
 
 		}
@@ -123,14 +226,18 @@ public class ImageProcessing {
 		WritableImage inverted_image = new WritableImage(width, height);
 		PixelWriter inverted_image_writer = inverted_image.getPixelWriter();
 		PixelReader image_reader = orginalImage.getPixelReader();
-
+double brightness =0,hue=0,saturation=0;
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Color color = image_reader.getColor(x, y);
-				color = Color.color(redLookupTable[(int) (color.getRed() * 255)],
-						greenLookupTable[(int) (color.getGreen() * 255)],
-						blueLookupTable[(int) (color.getBlue() * 255)]);
-				inverted_image_writer.setColor(x, y, color);
+		//		color = Color.color(redLookupTable[(int) (color.getRed() * 255)],
+		//				greenLookupTable[(int) (color.getGreen() * 255)],
+		//				blueLookupTable[(int) (color.getBlue() * 255)]);
+				brightness	=lookupTable[(int)(color.getBrightness()*255)];
+				hue= color.getHue();
+				saturation= color.getSaturation();
+				Color newColor = toRGB(new HSV(hue,saturation,brightness));
+				inverted_image_writer.setColor(x, y, newColor);
 			}
 		}
 		setProcessedImage(inverted_image);
@@ -269,9 +376,9 @@ public class ImageProcessing {
 
 	public void calcGamma() {
 
-		getLookupTabe().clear();
+		
 		for (int i = 0; i <= 255; i++) {
-			getLookupTabe().put(i, Math.pow((double) i / 255, ((double) 1 / gamma)));
+			getLookupTabe()[i]=Math.pow((double) i / 255, ((double) 1 / gamma));
 		}
 	}
 
@@ -287,9 +394,9 @@ public class ImageProcessing {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Color color = image_reader.getColor(x, y);
-				color = Color.color(lookupTable.get((int) (color.getRed() * 255)),
-						lookupTable.get((int) (color.getGreen() * 255)),
-						lookupTable.get((int) (color.getBlue() * 255)));
+				color = Color.color(lookupTable[((int) (color.getRed() * 255))],
+						lookupTable[((int) (color.getGreen() * 255))],
+						lookupTable[((int) (color.getBlue() * 255))]);
 
 				inverted_image_writer.setColor(x, y, color);
 
