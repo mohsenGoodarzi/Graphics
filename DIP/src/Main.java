@@ -32,26 +32,15 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		
-		//FormMain frm= new FormMain(primaryStage);
-		
 		try {
-			// Load the main scene.
-			//ScrollPane root = (ScrollPane)FXMLLoader.load(getClass().getResource("FXMLFiles\\FormMain.fxml"));
-			//Scene scene = new Scene(root, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-
-			 fxml = new  FXMLLoader(getClass().getResource("FXMLFiles\\MainForm.fxml"));
+			
+			fxml = new  FXMLLoader(getClass().getResource("FXMLFiles\\MainForm.fxml"));
 			ScrollPane root = (ScrollPane)fxml.load();
 			Scene scene = new Scene(root, MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT);
-			//primaryStage.initStyle(StageStyle.TRANSPARENT);
 			
-			// Place the main scene on stage and show it.
 			primaryStage.setScene(scene);
 			primaryStage.setTitle(WINDOW_TITLE);
 			primaryStage.show();
-			//FormMain controller =new FormMain();
-			//controller=(FormMain)fxml.getController();
-			//controller.menuFile.setText("Hello");
 			
 		} catch(Exception e) {
 		e.printStackTrace();
