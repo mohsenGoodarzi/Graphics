@@ -28,7 +28,7 @@
                            <items>
                               <MenuItem fx:id="menuImageEdgeDetectionPrewitt" mnemonicParsing="false" onAction="#menuImageEdgeDetectionPrewitt_OnClick" text="Edge Detection Prewitt" />
                               <MenuItem fx:id="menuImageEdgeDetectionSobel" mnemonicParsing="false" onAction="#menuImageEdgeDetectionSobel_OnClick" text="Edge Detection Sobel" />
-                              <MenuItem fx:id="menuImageEdgeDetectionSecondDerivation" mnemonicParsing="false" onAction="#menuImageEdgeDetectionSecondDerivation_OnClick" text="Edge Detection Second Derivation" />
+                              
                            </items>
                         </Menu>
                         <Menu fx:id="menuImageDithering" mnemonicParsing="false" text="Dithering">
@@ -36,10 +36,6 @@
                             <MenuItem fx:id="menuImageDitheringThresholding" mnemonicParsing="false" onAction="#menuImageDitheringThresholding_OnClick" text="Thresholding" />
                               <MenuItem fx:id="menuImageDitheringErrorDiffusion" mnemonicParsing="false" onAction="#menuImageDitheringErrorDiffusion_OnClick" text="Error Diffusion" />
                               <MenuItem fx:id="menuImageDitheringErrorDiffusionFloyd" mnemonicParsing="false" onAction="#menuImageDitheringErrorDiffusionFloyd_OnClick" text="Floyd-Steinberg" />
-                              <MenuItem fx:id="menuImageDitheringHalftoning" mnemonicParsing="false" onAction="#menuImageDitheringHalftoning_OnClick" text="Halftoning" />
-                              <MenuItem fx:id="menuImageDitheringHalftoningPatterns" mnemonicParsing="false" onAction="#menuImageDitheringHalftoningPatterns_OnClick" text="Halftoning Patterns" />
-                              <MenuItem fx:id="menuImageDitheringPatternDither" mnemonicParsing="false" onAction="#menuImageDitheringPatternDither_OnClick" text="Pattern Dither" />
-                              <MenuItem fx:id="menuImageDitheringOrderedDither" mnemonicParsing="false" onAction="#menuImageDitheringOrderedDither_OnClick" text="Ordered Dither" />
                           </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Blur">

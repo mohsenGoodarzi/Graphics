@@ -24,48 +24,28 @@ public class ImageProcessing {
 	private double gamma;
 	private double contrast;
 	private double[] lookupTable;
-
-	//private double[] redLookupTable;
-	//private double[] greenLookupTable;
-	//private double[] blueLookupTable;
-	private double[] grayscaleLookupTable;
 	private double imageWidth;
 	private double imageHeight;
-	//private final int RED = 0;
-	//private final int GREEN = 1;
-	//private final int BLUE = 2;
-	//private final int CUMULATIVE_RED = 3;
-	//private final int CUMULATIVE_GREEN = 4;
-	//private final int CUMULATIVE_BLUE = 5;
+	private final int RED = 0;
+	private final int GREEN = 1;
+	private final int BLUE = 2;
+	private final int CUMULATIVE_RED = 3;
+	private final int CUMULATIVE_GREEN = 4;
+	private final int CUMULATIVE_BLUE = 5;
 
 	private Histogram histogram;
 
 	public ImageProcessing(Image image) {
-
 		setOrginalImage(image);
-
 		setProcessedImage(null);
-
 		imageWidth = image.getWidth();
 		imageHeight = image.getHeight();
 		histogram = new Histogram(orginalImage);
-
 		processedImage = orginalImage;
-		//redLookupTable = new double[256];
-		//greenLookupTable = new double[256];
-		//blueLookupTable = new double[256];
-		//grayscaleLookupTable = new double[256];
+		lookupTable = new double[256];
 		for (int i = 0; i <= 255; i++) {
-			double j = (double) i;
-			//redLookupTable[j] = i / 255.0d;
-			//greenLookupTable[j] = i / 255.0d;
-			//blueLookupTable[j] = i / 255.0d;
-			//grayscaleLookupTable[j] = i / 55.0d;
-			lookupTable[i]= j/255.0d;
-			
-
+			lookupTable[i]= ((double)i)/255.0d;
 		}
-
 	}
 
 	private double [] getLookupTabe() {
@@ -204,17 +184,10 @@ public class ImageProcessing {
 	
 	public void calcEqualization() {
 		// mapping[i] = 255.0 * (t[i] / Size)
+		this.applyGrayScale();
 		for (int i = 0; i < 256; i++) {
-			
-			
-			//redLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeRed()[i]
-			//		/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-			//greenLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeGreen()[i]
-		//			/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-		//	blueLookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBlue()[i]
-			//		/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
-			lookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBrightness()[i]
-					/ (double) (orginalImage.getWidth() * orginalImage.getHeight()))));
+			// this only works over gray scale images		
+			lookupTable[i] = (double) (255.0d * ((histogram.getCumulativeBrightness()[i]/(double) (orginalImage.getWidth() * orginalImage.getHeight()))));
 
 		}
 	}
@@ -230,9 +203,6 @@ double brightness =0,hue=0,saturation=0;
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Color color = image_reader.getColor(x, y);
-		//		color = Color.color(redLookupTable[(int) (color.getRed() * 255)],
-		//				greenLookupTable[(int) (color.getGreen() * 255)],
-		//				blueLookupTable[(int) (color.getBlue() * 255)]);
 				brightness	=lookupTable[(int)(color.getBrightness()*255)];
 				hue= color.getHue();
 				saturation= color.getSaturation();
@@ -251,23 +221,17 @@ double brightness =0,hue=0,saturation=0;
 		
 		int margin = (filter.getLength()-1)/2;
 		
-		int width = (int) orginalImage.getWidth();
-		int height = (int) orginalImage.getHeight();
 		PixelReader image_reader = orginalImage.getPixelReader();
 
-		// if (((x -2) >= 0 && (y-2)>=0) || ((x+2)<=tempImage.Width
-		// &&((x+2)<=tempImage.Width && (y + 2) <= tempImage.Height)))
-		for (int column = 0; column < filter.getLength(); column++) 
+		for (int row = 0; row < filter.getLength(); row++)
 		 {
-			
-				for (int row = 0; row < filter.getLength(); row++){
-
+			 for (int column = 0; column < filter.getLength(); column++) 
 				{
+
 					Color color = image_reader.getColor(((x - margin) + row), ((y - margin) + column));
-					result[0] += filter.getMatrix()[column][row] * color.getRed();
-					result[1] += filter.getMatrix()[column][row]  * color.getGreen();
-					result[2] += filter.getMatrix()[column][row]  * color.getBlue();
-				}
+					result[0] += filter.getMatrix()[row][column] * color.getRed();
+					result[1] += filter.getMatrix()[row][column]  * color.getGreen();
+					result[2] += filter.getMatrix()[row][column]  * color.getBlue();
 			}
 
 		}
@@ -278,16 +242,19 @@ double brightness =0,hue=0,saturation=0;
 	private double[][][] calcFilter(IFilter filter) {
 
 		int totalMargin= filter.getLength()-1;
+		int startPoint = (filter.getLength()-1)/2;
 		int size = ((int) orginalImage.getWidth() - totalMargin) * ((int) orginalImage.getHeight() - totalMargin);
+		
 		double[][][] result = new double[(int) orginalImage.getWidth() - totalMargin][(int) orginalImage.getHeight() - totalMargin][3];
+		
 		int[] newValuesRed = new int[size];
 		int[] newValuesGreen = new int[size];
 		int[] newValuesBlue = new int[size];
 		int counter = 0;
 		int margin = (filter.getLength()-1)/2;
 		
-		for (int x = 2; x < orginalImage.getWidth() - margin; x++) {
-			for (int y = 2; y < orginalImage.getHeight() - margin; y++) {
+		for (int y = startPoint; y < orginalImage.getHeight() - margin; y++) {
+			for (int x = startPoint; x < orginalImage.getWidth() - margin; x++) {
 				int[] pxl = calcFilterOnPixel(x, y,filter);
 				// I’= ((I - min) * 255) / (max - min)
 
@@ -318,8 +285,8 @@ double brightness =0,hue=0,saturation=0;
 		int finalMin = Math.min(redMin, Math.min(greenMin, blueMin));
 		int finalMax = Math.max(redMax, Math.max(greenMax, blueMax));
 		counter = 0;
-		for (int x = margin; x < orginalImage.getWidth() - margin; x++) {
-			for (int y = margin; y < orginalImage.getHeight() - margin; y++) {
+		for (int y = margin; y < orginalImage.getHeight() - margin; y++) {
+			for (int x = margin; x < orginalImage.getWidth() - margin; x++) {
 				int[] pxl = calcFilterOnPixel(x, y,filter);
 				// I’= ((I - min) * 255) / (max - min)
 
@@ -556,13 +523,8 @@ double brightness =0,hue=0,saturation=0;
 					int resultFreshold = (int) ((color.getBlue() + color.getRed() + color.getGreen()) * 255 / 3);
 					totalIntensityFresholdImage += resultFreshold;
 				}
-
 			}
-		System.out.println("orginal image total intensity: " + totalIntensityOrginalImage + " Avereage: "
-				+ totalIntensityOrginalImage / (width * height));
-		System.out.println("freshold image total intensity: " + totalIntensityFresholdImage + " Avereage: "
-				+ totalIntensityFresholdImage / (width * height));
-		System.out.println("Error (Total): " + (totalIntensityFresholdImage - totalIntensityOrginalImage));
+		
 		setProcessedImage(inverted_image);
 
 	}
@@ -661,21 +623,12 @@ double brightness =0,hue=0,saturation=0;
 		PixelWriter inverted_image_writer = inverted_image.getPixelWriter();
 		PixelReader image_reader = orginalImage.getPixelReader();
 
-// initials grey array
+		// 	initials grey array
 		for (int y = 0; y < height; y++)
 			for (int x = 0; x < width; x++) {
 				Color color = image_reader.getColor(x, y);
 				grey[y][x] = (int) ((color.getBlue() + color.getGreen() + color.getRed()) * 255 / 3);
 			}
-
-		
-		for(int y=0;y<3;y++)
-		{	for (int x = 0; x<5;x++)
-			{
-		System.out.print(grey[y][x]+"	");
-			}
-		System.out.print("\n");
-		}
 		double alpha = (7d / 16d);
 		double beta = (3d / 16d);
 		double gamma = (5d / 16d);
@@ -686,15 +639,14 @@ double brightness =0,hue=0,saturation=0;
 
 			if (direction)
 				for (int x = 1; x < (width - 1); x++) {
-
 					if (grey[y][x] < threshold) {
+						
 						bw[y][x] = 0;
-						
 						error = grey[y][x];
-
+					
 					} else {
-						bw[y][x] = max_intensity;
 						
+						bw[y][x] = max_intensity;	
 						error = grey[y][x] - max_intensity;
 					}
 					
@@ -709,8 +661,6 @@ double brightness =0,hue=0,saturation=0;
 
 					color = image_reader.getColor(x + 1, y + 1);
 					grey[y + 1][x + 1] = grey[y + 1][x + 1] + (int) (error * ro);
-
-				
 
 					color = Color.color((bw[y][x] / 255), (bw[y][x] / 255), (bw[y][x] / 255));
 					inverted_image_writer.setColor(x, y, color);
@@ -720,18 +670,16 @@ double brightness =0,hue=0,saturation=0;
 				for (int x = (width - 2); x >= 1; x--) {
 
 					if (grey[y][x] < threshold) {
+						
 						bw[y][x] = 0;
-						// error= grey[x][y];
 						error = grey[y][x];
 
 					} else {
+						
 						bw[y][x] = max_intensity;
-						// error=grey[x][y]-max_intensity;
 						error = grey[y][x] - max_intensity;
 					}
 
-					
-					
 					Color color = image_reader.getColor(x + 1, y);
 					grey[y][x + 1] = grey[y][x + 1] + (int) (error * alpha);
 
@@ -743,41 +691,17 @@ double brightness =0,hue=0,saturation=0;
 
 					color = image_reader.getColor(x + 1, y + 1);
 					grey[y + 1][x + 1] = grey[y + 1][x + 1] + (int) (error * ro);
-
-					
 					
 					color = Color.color((bw[y][x] / 255), (bw[y][x] / 255), (bw[y][x] / 255));
 					inverted_image_writer.setColor(x, y, color);
 
 					direction = true;
 				}
-
-		}
-		System.out.print("\n grey before \n");
-		
-		for(int y=0;y<3;y++)
-		{	for (int x = 0; x<5;x++)
-			{
-		System.out.print(grey[y][x]+"	");
-			}
-		System.out.print("\n");
 		}
 		
-		
-				//for()int y=0;y<System.out.println(bw[y][x]);
-		for(int y=0;y<3;y++)
-		{	for (int x = 0; x<5;x++)
-			{
-		System.out.print(bw[y][x]+"	");
-			}
-		System.out.print("\n");
-		}
 		setProcessedImage(inverted_image);
-
 	}
 
-	
-	
 	public void resizeOldMethod() {
 		//for j=0 to Yb-1
 		//for i=0 to Xb-1

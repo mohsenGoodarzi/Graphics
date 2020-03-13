@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import FilterCollection.FilterCollection3By3;
+import FilterCollection.FilterCollection3By3.GusianBlur;
 import FilterCollection.FilterCollection5By5;
 import FilterCollection.IFilter;
 import javafx.beans.value.ChangeListener;
@@ -66,40 +67,31 @@ public class MainController implements Initializable {
 	private MenuItem menuImageInvert;
 	@FXML
 	private MenuItem menuImageBlurGussianBlur;
-	
-	
-	
-	
-	
 	@FXML
 	private MenuItem menuImageEdgeDetectionPrewitt;
-	
-	
-	
-	
-	
-	
-	
-	
 	@FXML
 	private MenuItem menuImageEdgeDetectionSobel;
-	@FXML
-	private MenuItem menuImageEdgeDetectionSecondDerivation;
-
+	
+	
+	
+	
+	//<MenuItem fx:id="menuImageEdgeDetectionSecondDerivation" mnemonicParsing="false" onAction="#menuImageEdgeDetectionSecondDerivation_OnClick" text="Edge Detection Second Derivation" />
+	//private MenuItem menuImageEdgeDetectionSecondDerivation;
+	
 	@FXML
 	private MenuItem menuImageDitheringThresholding;
 	@FXML
 	private MenuItem menuImageDitheringErrorDiffusion;
 	@FXML
 	private MenuItem menuImageDitheringErrorDiffusionFloyd;
-	@FXML
-	private MenuItem menuImageDitheringHalftoning;
-	@FXML
-	private MenuItem menuImageDitheringHalftoningPatterns;
-	@FXML
-	private MenuItem menuImageDitheringPatternDither;
-	@FXML
-	private MenuItem menuImageDitheringOrderedDither;
+	
+	//private MenuItem menuImageDitheringHalftoning;
+	
+	//private MenuItem menuImageDitheringHalftoningPatterns;
+	
+	//private MenuItem menuImageDitheringPatternDither;
+	
+	//private MenuItem menuImageDitheringOrderedDither;
 	@FXML
 	private Menu menuHelp;
 	@FXML
@@ -188,7 +180,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuImageContrast_OnClick(Event e) {
-		System.out.println("menuImageContrast_OnClick");
+		
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLFiles\\ContrastForm.fxml"));
 		ScrollPane root = null;
 		try {
@@ -235,7 +227,6 @@ public class MainController implements Initializable {
 			fxmlLoader.setControllerFactory(a -> {
 				return new HistogramController(image, this);
 			});
-			// System.out.println(fxmlLoader.getController().toString());
 			root = (ScrollPane) fxmlLoader.load();
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
@@ -269,10 +260,8 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuImageEdgeDetectionPrewitt_OnClick(Event e) {
-		System.out.println("menuImageEdgeDetectionPrewitt");
-
+		
 		imageprocessing = new ImageProcessing(image);
-
 		FilterCollection.FilterCollection3By3.edgeDetectionV VerticalFilter = new FilterCollection3By3.edgeDetectionV();
 		FilterCollection.FilterCollection3By3.edgeDetectionH horizontalFilter = new FilterCollection3By3.edgeDetectionH();
 		int thresholdPoint = 20;
@@ -283,8 +272,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuImageEdgeDetectionSobel_OnClick(Event e) {
-		System.out.println("menuImageEdgeDetectionSobel_OClick");
-
+		
 		imageprocessing = new ImageProcessing(image);
 		FilterCollection.FilterCollection3By3.edgeDetectionSobelV VerticalFilter = new FilterCollection3By3.edgeDetectionSobelV();
 		FilterCollection.FilterCollection3By3.edgeDetectionSobelH horizontalFilter = new FilterCollection3By3.edgeDetectionSobelH();
@@ -294,20 +282,9 @@ public class MainController implements Initializable {
 		image = imageprocessing.getProcessedImage();
 	}
 
-	@FXML
-	private void menuImageEdgeDetectionSecondDerivation_OnClick(Event e) {
-		System.out.println("menuImageEdgeDetectionSecondDerivation_OnClick");
-
-		 imageprocessing=new ImageProcessing(image);
-		 FilterCollection.FilterCollection5By5.EdgeDetectionSecondDerivation filter = new FilterCollection5By5.EdgeDetectionSecondDerivation();
-		 imageprocessing.applyEdgeDetectionSecondDerivation(filter);
-		 mainImageView.setImage(imageprocessing.getProcessedImage());
-		 image=imageprocessing.getProcessedImage();
-	}
 
 	@FXML
 	private void menuImageDitheringThresholding_OnClick(Event e) {
-		System.out.println("menuImageDitheringThresholding_OnClick");
 
 		imageprocessing = new ImageProcessing(image);
 		imageprocessing.applyThreshold();
@@ -318,8 +295,6 @@ public class MainController implements Initializable {
 	@FXML
 	private void menuImageDitheringErrorDiffusion_OnClick(Event e) {
 
-		System.out.println("menuImageDitheringErrorDiffusion_OnClick");
-
 		imageprocessing = new ImageProcessing(image);
 		imageprocessing.applyErrorDiffusion();
 		mainImageView.setImage(imageprocessing.getProcessedImage());
@@ -328,8 +303,6 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuImageDitheringErrorDiffusionFloyd_OnClick(Event e) {
-		System.out.println("menuImageDitheringErrorDiffusionFloyd_OnClick");
-
 		imageprocessing = new ImageProcessing(image);
 		imageprocessing.applyDiffusionDitheringFloyd();
 		mainImageView.setImage(imageprocessing.getProcessedImage());
@@ -337,25 +310,7 @@ public class MainController implements Initializable {
 
 	}
 
-	@FXML
-	private void menuImageDitheringHalftoning_OnClick(Event e) {
-		System.out.println("menuImageDitheringHalftoning_OnClick");
-	}
-
-	@FXML
-	private void menuImageDitheringHalftoningPatterns_OnClick(Event e) {
-		System.out.println("menuImageDitheringHalftoningPatterns_OnClick");
-	}
-
-	@FXML
-	private void menuImageDitheringPatternDither_OnClick(Event e) {
-		System.out.println("menuImageDitheringPatternDither_OnClick");
-	}
-
-	@FXML
-	private void menuImageDitheringOrderedDither_OnClick(Event e) {
-		System.out.println("menuImageDitheringOrderedDither_OnClick");
-	}
+	
 
 	/**
 	 * Handle the edit button. This will display a window allowing the user to edit
@@ -372,16 +327,13 @@ public class MainController implements Initializable {
 		
 		
 		imageprocessing = new ImageProcessing(image);
-		
-		IFilter embossingFilter = new  FilterCollection3By3.LowPass();
+
+		//IFilter embossingFilter = new  FilterCollection3By3.GusianBlur();
+		IFilter embossingFilter = new  FilterCollection5By5.EdgeDetectionSecondDerivation();
 		imageprocessing.applyFilter(embossingFilter);
 		mainImageView.setImage(imageprocessing.getProcessedImage());
 		image = imageprocessing.getProcessedImage();
-	
-	
 	}
-	
-	
 	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -415,10 +367,7 @@ public class MainController implements Initializable {
 		menuImageEdgeDetectionSobel.setOnAction(e -> {
 			menuImageEdgeDetectionSobel_OnClick(e);
 		});
-		menuImageEdgeDetectionSecondDerivation.setOnAction(e -> {
-			menuImageEdgeDetectionSecondDerivation_OnClick(e);
-		});
-
+		
 		menuImageDitheringThresholding.setOnAction(e -> {
 			menuImageDitheringThresholding_OnClick(e);
 		});
@@ -428,19 +377,7 @@ public class MainController implements Initializable {
 		menuImageDitheringErrorDiffusionFloyd.setOnAction(e -> {
 			menuImageDitheringErrorDiffusionFloyd_OnClick(e);
 		});
-		menuImageDitheringHalftoning.setOnAction(e -> {
-			menuImageDitheringHalftoning_OnClick(e);
-		});
-		menuImageDitheringHalftoningPatterns.setOnAction(e -> {
-			menuImageDitheringHalftoningPatterns_OnClick(e);
-		});
-		menuImageDitheringPatternDither.setOnAction(e -> {
-			menuImageDitheringPatternDither_OnClick(e);
-		});
-		menuImageDitheringOrderedDither.setOnAction(e -> {
-			menuImageDitheringOrderedDither_OnClick(e);
-		});
-
+		
 		menuImageBlurGussianBlur.setOnAction(e -> {
 			menuImageBlurGussianBlur_OnClick(e);
 		});
