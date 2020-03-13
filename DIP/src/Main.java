@@ -22,7 +22,6 @@ public class Main extends Application{
 		launch(args);
 
 	}
-
 	
 	public static FXMLLoader getMainFxml() {
 	return fxml;	
