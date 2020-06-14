@@ -29,9 +29,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 public class MainController implements Initializable {
@@ -176,6 +179,26 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuHelp_About_OnClick(Event e) {
+		
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLFiles\\AboutForm.fxml"));
+		AnchorPane root = null;
+		try {
+			
+			
+			root = (AnchorPane)fxmlLoader.load();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		Scene nscene = new Scene(root);
+		Stage tStage = new Stage();
+		tStage.setScene(nscene);
+		tStage.setAlwaysOnTop(true);
+		tStage.setResizable(false);
+
+		tStage.show();
+
 	}
 
 	@FXML

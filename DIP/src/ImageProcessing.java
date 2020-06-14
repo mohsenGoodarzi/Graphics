@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 
-import org.omg.CORBA.OMGVMCID;
+
 
 import FilterCollection.FilterCollection3By3;
 import FilterCollection.IFilter;
