@@ -1,3 +1,13 @@
+/*
+ * File-name: Histogram.java 
+ * Version number: 0.1.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
+
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.PixelWriter;

@@ -1,11 +1,19 @@
+/*
+ * File-name: ImageProcessing.java 
+ * Version number: 0.2.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
+
 import java.awt.color.ColorSpace;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
-
-
 
 import FilterCollection.FilterCollection3By3;
 import FilterCollection.IFilter;
@@ -95,9 +103,6 @@ public class ImageProcessing {
 			 double computedSaturation = 0;
 			 double computedValue = 0;
 
-			 //remove spaces from input RGB values, convert to int
-			 
-			 
 			 double min = Math.min(red,Math.min(green,blue));
 			 double max = Math.max(red,Math.max(green,blue));
 			 double delta,hue =0;
@@ -213,8 +218,6 @@ double brightness =0,hue=0,saturation=0;
 		setProcessedImage(inverted_image);
 	}
 
-	
-
 	private int[] calcFilterOnPixel(int x, int y,IFilter filter) {
 		int[] result = new int[3];
 
@@ -265,8 +268,6 @@ double brightness =0,hue=0,saturation=0;
 				counter++;
 			}
 		}
-
-		// result
 
 		int[] red = Arrays.copyOfRange(newValuesRed, 0, newValuesRed.length - 1);
 		Arrays.sort(red);
@@ -569,7 +570,7 @@ double brightness =0,hue=0,saturation=0;
 					}
 
 					color = Color.color((bw[y][x] / 255), (bw[y][x] / 255), (bw[y][x] / 255));
-					// System.out.println(color.getBlue());
+					
 					inverted_image_writer.setColor(x, y, color);
 
 					direction = false;
@@ -703,14 +704,7 @@ double brightness =0,hue=0,saturation=0;
 	}
 
 	public void resizeOldMethod() {
-		//for j=0 to Yb-1
-		//for i=0 to Xb-1
-		//for c=0 to 2
-		//y=j*Ya/Yb <- make sure this is done using floats
-		//x=i*Xa/Xb <- same
-		//Ib[j][i][c]=Ia[y][x][c]
-
-		
+	
 		int width = (int) orginalImage.getWidth();
 		int height = (int) orginalImage.getHeight();
 		

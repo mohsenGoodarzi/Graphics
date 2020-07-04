@@ -5,14 +5,13 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" type="AnchorPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
+<Pane fx:id="aboutForm" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="AboutController">
    <children>
-      <Label layoutX="221.0" layoutY="230.0" text="Programmer: Mohsen Goodarzi" />
-      <Label layoutX="147.0" layoutY="144.0" text="Image Editor V0.01">
+      <Label layoutX="157.0" layoutY="154.0" text="Image Editor V0.01">
          <font>
             <Font size="39.0" />
          </font>
       </Label>
+      <Label layoutX="231.0" layoutY="240.0" text="Programmer: Mohsen Goodarzi" />
    </children>
-</fx:root>
+</Pane>

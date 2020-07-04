@@ -1,3 +1,13 @@
+/*
+ * File-name: Main.java 
+ * Version number: 0.1.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,6 +28,7 @@ public class Main extends Application{
 		public static final String EDIT_WINDOW_TITLE = "Edit Europe";
         private static FXMLLoader fxml=null;
 
+        // Entry point of the programme
 	public static void main(String[] args) {
 		launch(args);
 
@@ -26,6 +37,7 @@ public class Main extends Application{
 	public static FXMLLoader getMainFxml() {
 	return fxml;	
 	} 
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 

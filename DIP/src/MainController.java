@@ -1,3 +1,12 @@
+/*
+ * File-name: MainController.java 
+ * Version number: 0.1.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,6 +47,7 @@ import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 public class MainController implements Initializable {
+	// private fields area 
 	@FXML
 	private ScrollPane mainPane;
 	@FXML
@@ -69,39 +79,22 @@ public class MainController implements Initializable {
 	@FXML
 	private MenuItem menuImageInvert;
 	@FXML
-	private MenuItem menuImageBlurGussianBlur;
-	@FXML
 	private MenuItem menuImageEdgeDetectionPrewitt;
 	@FXML
 	private MenuItem menuImageEdgeDetectionSobel;
-	
-	
-	
-	
-	//<MenuItem fx:id="menuImageEdgeDetectionSecondDerivation" mnemonicParsing="false" onAction="#menuImageEdgeDetectionSecondDerivation_OnClick" text="Edge Detection Second Derivation" />
-	//private MenuItem menuImageEdgeDetectionSecondDerivation;
-	
 	@FXML
 	private MenuItem menuImageDitheringThresholding;
 	@FXML
 	private MenuItem menuImageDitheringErrorDiffusion;
 	@FXML
 	private MenuItem menuImageDitheringErrorDiffusionFloyd;
-	
-	//private MenuItem menuImageDitheringHalftoning;
-	
-	//private MenuItem menuImageDitheringHalftoningPatterns;
-	
-	//private MenuItem menuImageDitheringPatternDither;
-	
-	//private MenuItem menuImageDitheringOrderedDither;
 	@FXML
 	private Menu menuHelp;
 	@FXML
 	private MenuItem menuHelp_About;
 	@FXML
 	private ImageView mainImageView;
-	@FXML
+
 	private Image image;
 	private ImageProcessing imageprocessing;
 	private static final int MAIN_WINDOW_WIDTH = 150;
@@ -120,7 +113,7 @@ public class MainController implements Initializable {
 
 	@FXML
 	private void menuImageGamma_OnClick(Event event) {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLFiles\\GammaForm.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/GammaForm.fxml"));
 		ScrollPane root = null;
 		try {
 			fxmlLoader.setControllerFactory(c -> {
@@ -180,24 +173,33 @@ public class MainController implements Initializable {
 	@FXML
 	private void menuHelp_About_OnClick(Event e) {
 		
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXMLFiles\\AboutForm.fxml"));
-		AnchorPane root = null;
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/FXMLFiles/AboutForm.fxml"));
+		Pane root = null;
 		try {
+			fxmlLoader.setControllerFactory(c -> {
+				return new AboutController();
+			});
+			root = (Pane) fxmlLoader.load();
+			
+		} catch (IOException error) {
 			
 			
-			root = (AnchorPane)fxmlLoader.load();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			error.printStackTrace();
 		}
 		
 		Scene nscene = new Scene(root);
+
 		Stage tStage = new Stage();
 		tStage.setScene(nscene);
+		tStage.initStyle(StageStyle.UNDECORATED);
 		tStage.setAlwaysOnTop(true);
 		tStage.setResizable(false);
-
+		tStage.getScene().getWindow().setOpacity(0.4);
+		
+		
 		tStage.show();
+
+		// Using a flow pane
 
 	}
 
@@ -220,9 +222,7 @@ public class MainController implements Initializable {
 		tStage.setScene(nscene);
 		tStage.setAlwaysOnTop(true);
 		tStage.setResizable(false);
-
 		tStage.show();
-
 	}
 
 	@FXML
@@ -232,7 +232,6 @@ public class MainController implements Initializable {
 		imageprocessing.applyGrayScale();
 		mainImageView.setImage(imageprocessing.getProcessedImage());
 		this.image = imageprocessing.getProcessedImage();
-
 	}
 
 	@FXML
@@ -287,7 +286,7 @@ public class MainController implements Initializable {
 		imageprocessing = new ImageProcessing(image);
 		FilterCollection.FilterCollection3By3.edgeDetectionV VerticalFilter = new FilterCollection3By3.edgeDetectionV();
 		FilterCollection.FilterCollection3By3.edgeDetectionH horizontalFilter = new FilterCollection3By3.edgeDetectionH();
-		int thresholdPoint = 20;
+		int thresholdPoint = 128;
 		imageprocessing.applyEdgeDetection(horizontalFilter, VerticalFilter, thresholdPoint);
 		mainImageView.setImage(imageprocessing.getProcessedImage());
 		image = imageprocessing.getProcessedImage();
@@ -299,7 +298,7 @@ public class MainController implements Initializable {
 		imageprocessing = new ImageProcessing(image);
 		FilterCollection.FilterCollection3By3.edgeDetectionSobelV VerticalFilter = new FilterCollection3By3.edgeDetectionSobelV();
 		FilterCollection.FilterCollection3By3.edgeDetectionSobelH horizontalFilter = new FilterCollection3By3.edgeDetectionSobelH();
-		int thresholdPoint = 20;
+		int thresholdPoint = 128;
 		imageprocessing.applyEdgeDetection(horizontalFilter, VerticalFilter, thresholdPoint);
 		mainImageView.setImage(imageprocessing.getProcessedImage());
 		image = imageprocessing.getProcessedImage();
@@ -333,31 +332,6 @@ public class MainController implements Initializable {
 
 	}
 
-	
-
-	/**
-	 * Handle the edit button. This will display a window allowing the user to edit
-	 * the selected country. After the edit is complete, the displayed list will be
-	 * updated.
-	 */
-	@FXML
-	private void handleEditButtonAction() {
-	}
-
-	
-	@FXML
-	private void menuImageBlurGussianBlur_OnClick(Event e){
-		
-		
-		imageprocessing = new ImageProcessing(image);
-
-		//IFilter embossingFilter = new  FilterCollection3By3.GusianBlur();
-		IFilter embossingFilter = new  FilterCollection5By5.EdgeDetectionSecondDerivation();
-		imageprocessing.applyFilter(embossingFilter);
-		mainImageView.setImage(imageprocessing.getProcessedImage());
-		image = imageprocessing.getProcessedImage();
-	}
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		menuFileOpen.setOnAction(e -> {
@@ -400,12 +374,6 @@ public class MainController implements Initializable {
 		menuImageDitheringErrorDiffusionFloyd.setOnAction(e -> {
 			menuImageDitheringErrorDiffusionFloyd_OnClick(e);
 		});
-		
-		menuImageBlurGussianBlur.setOnAction(e -> {
-			menuImageBlurGussianBlur_OnClick(e);
-		});
-		
-		
 		
 		mainPane.heightProperty().addListener(new ChangeListener<Number>() {
 			@Override

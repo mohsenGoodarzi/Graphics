@@ -38,11 +38,6 @@
                               <MenuItem fx:id="menuImageDitheringErrorDiffusionFloyd" mnemonicParsing="false" onAction="#menuImageDitheringErrorDiffusionFloyd_OnClick" text="Floyd-Steinberg" />
                           </items>
                         </Menu>
-                        <Menu mnemonicParsing="false" text="Blur">
-                          <items>
-                            <MenuItem fx:id="menuImageBlurGussianBlur" mnemonicParsing="false" onAction="#menuImageBlurGussianBlur_OnClick" text="Gussian Blur" />
-                          </items>
-                        </Menu>
                       <MenuItem fx:id="menuImageGamma" mnemonicParsing="false" onAction="#menuImageGamma_OnClick" text="Gamma Adjustment" />
                         <MenuItem fx:id="menuImageContrast" mnemonicParsing="false" onAction="#menuImageContrast_OnClick" text="Contrast Adjustment" />
                         <MenuItem fx:id="menuImageGrayscale" mnemonicParsing="false" onAction="#menuImageGrayscale_OnClick" text="Grayscale" />

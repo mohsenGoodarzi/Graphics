@@ -1,7 +1,14 @@
+/*
+ * File-name: GammaController.java 
+ * Version number: 0.1.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
+
 import java.io.FileNotFoundException;
-
-
-
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

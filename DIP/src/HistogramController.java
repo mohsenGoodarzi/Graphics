@@ -1,3 +1,13 @@
+/*
+ * File-name: HistogramController.java 
+ * Version number: 0.1.0
+ * Creation date: 01/03/2019
+ * Last modification date: 04/07/2020 
+ * Author’s name: Mohsen Goodarzi
+ * Copyright: Mohsen Goodarzi  
+ * Purpose of the program: Educational 
+ */
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
